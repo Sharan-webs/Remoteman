@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Warning screen -->
+    <ScrollView
+        android:id="@+id/warningSection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:text="!"
+                android:textColor="@color/warning"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:background="@drawable/bg_warning_circle"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/host_warning_title"
+                android:textColor="@color/text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/host_warning_body"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="36dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStartHosting"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/btn_host_server"
+                android:textAllCaps="false"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/accent"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Hosting / result screen -->
+    <LinearLayout
+        android:id="@+id/hostingSection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="28dp"
+        android:visibility="gone"
+        android:alpha="0">
+
+        <ImageView
+            android:id="@+id/loaderIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_loader_ring"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/loaderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hosting server"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp"
+            android:layout_marginBottom="36dp"/>
+
+        <LinearLayout
+            android:id="@+id/codeSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:alpha="0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Session code"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/codeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="44sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="32dp"/>
+
+            <View
+                android:id="@+id/statusDot"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_pill_red"/>
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waiting for helper"
+                android:textColor="@color/status_red"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStopServer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/btn_stop_server"
+                android:textAllCaps="false"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/status_red"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
