@@ -30,7 +30,9 @@ class HostActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
-            startForegroundService(Intent(this, ScreenCaptureService::class.java))
+            // The foreground service was already started (and given time to settle)
+            // before this permission request was launched, so it's safe to start
+            // capturing immediately here.
             client?.attachScreenCapture(result.data!!, 720, 1480)
             client?.createOffer()
         }
@@ -54,6 +56,8 @@ class HostActivity : AppCompatActivity() {
             scope.launch {
                 delay(600) // brief "hosting..." beat before the tick-in
                 binding.loaderIcon.clearAnimation()
+                binding.loaderIcon.visibility = View.GONE
+                binding.loaderLabel.visibility = View.GONE
                 binding.codeText.text = code
                 crossfade(null, binding.codeSection, hideFirst = false)
                 if (ok) beginSignalingAndCapture()
@@ -88,8 +92,13 @@ class HostActivity : AppCompatActivity() {
             }
         }
 
-        val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        captureLauncher.launch(projectionManager.createScreenCaptureIntent())
+        startForegroundService(Intent(this, ScreenCaptureService::class.java))
+
+        scope.launch {
+            delay(400) // give the foreground service time to fully start first
+            val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+            captureLauncher.launch(projectionManager.createScreenCaptureIntent())
+        }
     }
 
     private fun stopHosting() {
