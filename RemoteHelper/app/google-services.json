@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "822140651324",
+    "firebase_url": "https://remoteman-d0215-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "remoteman-d0215",
+    "storage_bucket": "remoteman-d0215.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822140651324:android:f85060f21368cbc1028039",
+        "android_client_info": {
+          "package_name": "com.creation.remoteman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdepLkbEhFF3NVxc7a_HZodRdREaffau8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
