@@ -46,7 +46,9 @@ class WebRTCClient(
             sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
         }
         peerConnection = factory.createPeerConnection(rtcConfig, object : PeerConnection.Observer {
-            override fun onIceCandidate(candidate: IceCandidate) = onIceCandidate(candidate)
+            override fun onIceCandidate(candidate: IceCandidate) {
+                this@WebRTCClient.onIceCandidate(candidate)
+            }
             override fun onTrack(transceiver: RtpTransceiver?) {
                 (transceiver?.receiver?.track() as? VideoTrack)?.let(onRemoteVideoTrack)
             }
