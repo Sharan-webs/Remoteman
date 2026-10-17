@@ -6,6 +6,7 @@ import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.creation.remoteman.databinding.ActivityHostBinding
@@ -74,6 +75,9 @@ class HostActivity : AppCompatActivity() {
             onRemoteVideoTrack = { /* host doesn't render video itself */ },
             onControlMessage = { json ->
                 RemoteAccessibilityService.instance?.handleControlMessage(json)
+            },
+            onError = { message ->
+                runOnUiThread { Toast.makeText(this, message, Toast.LENGTH_LONG).show() }
             }
         )
         client?.init()

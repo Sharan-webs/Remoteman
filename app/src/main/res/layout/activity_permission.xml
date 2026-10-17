@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_gradient_main"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,25 +17,52 @@
             android:layout_height="wrap_content"
             android:text="Permissions"
             android:textColor="@color/text_primary"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"/>
+            android:fontFamily="sans-serif-black"
+            android:textSize="30sp"
+            android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="22dp">
+
+            <View
+                android:id="@+id/liveDot"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:background="@drawable/bg_pill_green"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checking live"
+                android:textColor="@color/text_faint"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
 
         <include layout="@layout/item_permission_card" android:id="@+id/cardOverlay"/>
         <include layout="@layout/item_permission_card" android:id="@+id/cardAccessibility"/>
         <include layout="@layout/item_permission_card" android:id="@+id/cardNotifications"/>
+        <include layout="@layout/item_permission_card" android:id="@+id/cardBattery"/>
         <include layout="@layout/item_permission_card" android:id="@+id/cardCapture"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnter"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="14dp"
             android:text="@string/btn_enter"
             android:textAllCaps="false"
+            android:textSize="16sp"
             android:enabled="false"
             app:cornerRadius="16dp"
-            app:backgroundTint="@color/accent"/>
+            app:backgroundTint="@color/accent"
+            app:elevation="0dp"/>
 
     </LinearLayout>
 </ScrollView>

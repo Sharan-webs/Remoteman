@@ -1,12 +1,15 @@
 package com.creation.remoteman
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.PowerManager
 import android.provider.Settings
-import android.text.TextUtils
-import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -16,11 +19,22 @@ import com.creation.remoteman.databinding.ItemPermissionCardBinding
 class PermissionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPermissionBinding
+    private val handler = Handler(Looper.getMainLooper())
+    private val pollInterval = 1000L
+
+    private val poller = object : Runnable {
+        override fun run() {
+            refreshStatus()
+            handler.postDelayed(this, pollInterval)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPermissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.liveDot.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse))
 
         setupCard(binding.cardOverlay, R.string.perm_overlay_title, R.string.perm_overlay_desc) {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
@@ -33,6 +47,9 @@ class PermissionActivity : AppCompatActivity() {
                 .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
             startActivity(intent)
         }
+        setupCard(binding.cardBattery, R.string.perm_battery_title, R.string.perm_battery_desc) {
+            requestIgnoreBatteryOptimizations()
+        }
         setupCard(binding.cardCapture, R.string.perm_capture_title, R.string.perm_capture_desc) {
             // Screen capture consent is requested fresh each session (Android requirement);
             // nothing to toggle here ahead of time.
@@ -43,9 +60,24 @@ class PermissionActivity : AppCompatActivity() {
         }
     }
 
+    private fun requestIgnoreBatteryOptimizations() {
+        try {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                .setData(Uri.parse("package:$packageName"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        refreshStatus()
+        handler.post(poller)
+    }
+
+    override fun onPause() {
+        handler.removeCallbacks(poller)
+        super.onPause()
     }
 
     private fun setupCard(card: ItemPermissionCardBinding, title: Int, desc: Int, onClick: () -> Unit) {
@@ -64,12 +96,16 @@ class PermissionActivity : AppCompatActivity() {
         val notificationsOk = NotificationManagerCompat.from(this).areNotificationsEnabled()
         setStatus(binding.cardNotifications.status, notificationsOk)
 
+        val batteryOk = isIgnoringBatteryOptimizations()
+        setStatus(binding.cardBattery.status, batteryOk)
+
         // Capture consent happens per-session; shown as ready once the others are.
         setStatus(binding.cardCapture.status, true)
         binding.cardCapture.status.text = "Requested per session"
 
-        binding.btnEnter.isEnabled = overlayOk && accessibilityOk && notificationsOk
-        binding.btnEnter.alpha = if (binding.btnEnter.isEnabled) 1f else 0.5f
+        val allReady = overlayOk && accessibilityOk && notificationsOk
+        binding.btnEnter.isEnabled = allReady
+        binding.btnEnter.alpha = if (allReady) 1f else 0.5f
     }
 
     private fun setStatus(view: TextView, enabled: Boolean) {
@@ -83,5 +119,11 @@ class PermissionActivity : AppCompatActivity() {
             contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
         ) ?: return false
         return enabledServices.split(":").any { it.equals(expected, ignoreCase = true) }
+    }
+
+    private fun isIgnoringBatteryOptimizations(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        return pm.isIgnoringBatteryOptimizations(packageName)
     }
 }

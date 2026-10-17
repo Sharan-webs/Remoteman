@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_gradient_main">
 
     <!-- Code entry -->
     <LinearLayout
@@ -14,6 +14,24 @@
         android:gravity="center"
         android:padding="32dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-black"
+            android:textSize="28sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the code shown on the host device"
+            android:textColor="@color/text_faint"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="13sp"
+            android:layout_marginBottom="28dp"/>
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/codeInput"
             android:layout_width="match_parent"
@@ -22,21 +40,24 @@
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"
+            android:fontFamily="sans-serif-medium"
             android:textSize="22sp"
             android:letterSpacing="0.3"
-            android:background="@drawable/bg_card"
+            android:background="@drawable/bg_input"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:textColorHint="@color/text_faint"
             android:layout_marginBottom="20dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitCode"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="58dp"
             android:text="Connect"
             android:textAllCaps="false"
+            android:textSize="16sp"
             app:cornerRadius="16dp"
-            app:backgroundTint="@color/accent"/>
+            app:backgroundTint="@color/accent"
+            app:elevation="0dp"/>
     </LinearLayout>
 
     <!-- Connecting / connected -->
@@ -69,7 +90,10 @@
                 android:layout_height="wrap_content"
                 android:text="Connecting"
                 android:textColor="@color/text_secondary"
-                android:textSize="15sp"/>
+                android:fontFamily="sans-serif-medium"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:paddingHorizontal="32dp"/>
         </LinearLayout>
 
         <FrameLayout
@@ -103,8 +127,10 @@
             android:layout_margin="16dp"
             android:text="@string/btn_leave_server"
             android:textAllCaps="false"
+            android:textSize="15sp"
             app:cornerRadius="16dp"
-            app:backgroundTint="@color/status_red"/>
+            app:backgroundTint="@color/status_red"
+            app:elevation="0dp"/>
 
     </LinearLayout>
 

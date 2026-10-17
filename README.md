@@ -65,6 +65,41 @@ Needs your attention before real use:
 - The host's capture resolution is hardcoded (720x1480) in both
   `HostActivity` and `ConnectActivity` — keep those two values in sync, or
   send the real resolution over the data channel instead.
-- A launcher icon (see above).
+- A launcher icon is included (simple placeholder) — swap it for a real one
+  whenever you want via Android Studio's Image Asset tool.
 - Testing on real devices — accessibility gesture dispatch and
   `MediaProjection` behavior vary across Android versions and OEM skins.
+
+## What changed in this round
+
+- **Fixed a real crash:** screen capture was starting at nearly the same
+  instant as its required foreground service, which crashed on some devices
+  right after the capture permission was granted. The service now starts
+  first and is given a moment to settle.
+- **Fixed video not streaming:** the connector was calling `createAnswer()`
+  immediately after `setRemoteOffer()`, without waiting for it to actually
+  finish (it's asynchronous). ICE candidates are now also queued until the
+  remote description is confirmed set, instead of being dropped if they
+  arrived too early.
+- **Realme/Vivo/OEM reliability:** added a "Background reliability" card to
+  the permission screen that requests battery-optimization exemption —
+  ColorOS/FuntouchOS and similar skins aggressively kill background apps by
+  default, which can cut sessions short. Also added a note to the
+  Accessibility permission card about the "Allow restricted settings" step
+  Android 13+ requires for sideloaded (non-Play-Store) apps.
+- **New GUI:** refined dark palette, system `sans-serif-black`/`sans-serif-medium`
+  typography throughout, gradient backgrounds, card ripples, smoother
+  scale+fade activity transitions, a live-updating permission checklist
+  (polls every second instead of only on resume), and an ambient rotating
+  ring anchored to the home screen's bottom-right corner.
+- **New Settings screen** (gear icon, top-right of home): Restart app (wipes
+  cache, relaunches fresh), Force stop (ends any session and kills the app's
+  own process — the real equivalent of Android's Force Stop), and
+  Administration (opens the developer's Instagram).
+- **New corner Stop button** (top-left of home) — same as Force stop, one
+  tap away without opening Settings.
+- **On "automatic permission granting":** Android does not allow any app to
+  flip its own permission toggles — that's an OS security boundary, not a
+  missing feature here. What's implemented instead is real: the permission
+  screen now checks every toggle every second and routes you straight to
+  the right settings page the moment something's off.

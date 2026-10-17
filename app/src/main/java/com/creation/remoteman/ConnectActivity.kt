@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.creation.remoteman.databinding.ActivityConnectBinding
 import com.creation.remoteman.signaling.SignalingRepository
@@ -35,6 +36,7 @@ class ConnectActivity : AppCompatActivity() {
         binding.btnSubmitCode.setOnClickListener {
             val entered = binding.codeInput.text?.toString()?.trim().orEmpty()
             if (entered.length == 6) connect(entered)
+            else Toast.makeText(this, "Enter the full 6-digit code", Toast.LENGTH_SHORT).show()
         }
         binding.btnLeaveServer.setOnClickListener { leave() }
         binding.btnFullscreen.setOnClickListener { toggleFullscreen() }
@@ -51,15 +53,25 @@ class ConnectActivity : AppCompatActivity() {
             onLocalSdp = { sdp -> signaling.sendAnswer(code, sdp.description) },
             onIceCandidate = { ice -> signaling.sendCandidate(code, "connector", ice.sdp) },
             onRemoteVideoTrack = { track -> runOnUiThread { showVideo(track) } },
-            onControlMessage = { /* connector sends control, doesn't receive it */ }
+            onControlMessage = { /* connector sends control, doesn't receive it */ },
+            onError = { message ->
+                runOnUiThread {
+                    binding.connectStatusText.text = message
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                }
+            }
         )
         client?.init()
         binding.remoteView.init(client!!.eglBaseContext(), null)
         binding.remoteView.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT)
 
         signaling.listenForOffer(code) { offerSdp ->
-            client?.setRemoteOffer(offerSdp)
-            client?.createAnswer()
+            // Wait for setRemoteDescription to actually finish before creating the
+            // answer — calling createAnswer() right away (without waiting) is what
+            // was silently breaking the video stream before.
+            client?.setRemoteOffer(offerSdp) {
+                client?.createAnswer()
+            }
         }
         signaling.listenForCandidates(code, "host") { sdp ->
             client?.addRemoteIceCandidate(IceCandidate("", 0, sdp))

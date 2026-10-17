@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_gradient_main">
 
     <!-- Warning screen -->
     <ScrollView
@@ -22,19 +22,20 @@
                 android:layout_height="64dp"
                 android:text="!"
                 android:textColor="@color/warning"
-                android:textStyle="bold"
-                android:textSize="40sp"
+                android:fontFamily="sans-serif-black"
+                android:textSize="36sp"
                 android:background="@drawable/bg_warning_circle"
                 android:gravity="center"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/host_warning_title"
                 android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:textSize="26sp"
                 android:layout_marginBottom="12dp"/>
 
             <TextView
@@ -42,18 +43,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/host_warning_body"
                 android:textColor="@color/text_secondary"
+                android:fontFamily="sans-serif"
                 android:textSize="15sp"
-                android:lineSpacingExtra="4dp"
-                android:layout_marginBottom="36dp"/>
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="40dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStartHosting"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="58dp"
                 android:text="@string/btn_host_server"
                 android:textAllCaps="false"
+                android:textSize="16sp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="@color/accent"/>
+                app:backgroundTint="@color/accent"
+                app:elevation="0dp"/>
 
         </LinearLayout>
     </ScrollView>
@@ -71,10 +75,10 @@
 
         <ImageView
             android:id="@+id/loaderIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:src="@drawable/ic_loader_ring"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="18dp"/>
 
         <TextView
             android:id="@+id/loaderLabel"
@@ -82,7 +86,9 @@
             android:layout_height="wrap_content"
             android:text="Hosting server"
             android:textColor="@color/text_secondary"
-            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
+            android:letterSpacing="0.02"
             android:layout_marginBottom="36dp"/>
 
         <LinearLayout
@@ -97,36 +103,49 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Session code"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"/>
+                android:text="SESSION CODE"
+                android:textColor="@color/text_faint"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.12"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/codeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
-                android:textSize="44sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.2"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="32dp"/>
+                android:fontFamily="sans-serif-black"
+                android:textSize="46sp"
+                android:letterSpacing="0.18"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="36dp"/>
 
-            <View
-                android:id="@+id/statusDot"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:background="@drawable/bg_pill_red"/>
-
-            <TextView
-                android:id="@+id/statusText"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Waiting for helper"
-                android:textColor="@color/status_red"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="40dp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_card"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="10dp"
+                android:layout_marginBottom="44dp">
+
+                <View
+                    android:id="@+id/statusDot"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/bg_pill_red"/>
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waiting for helper"
+                    android:textColor="@color/status_red"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="13.5sp"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStopServer"
@@ -134,8 +153,10 @@
                 android:layout_height="56dp"
                 android:text="@string/btn_stop_server"
                 android:textAllCaps="false"
+                android:textSize="15sp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="@color/status_red"/>
+                app:backgroundTint="@color/status_red"
+                app:elevation="0dp"/>
 
         </LinearLayout>
     </LinearLayout>

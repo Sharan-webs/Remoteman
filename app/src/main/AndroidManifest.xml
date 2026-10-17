@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:name=".RemoteManApp"
@@ -27,6 +28,10 @@
         </activity>
 
         <activity android:name=".RoleSelectActivity" android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RemoteMan" />
         <activity android:name=".HostActivity" android:exported="false" />
         <activity android:name=".ConnectActivity" android:exported="false" />
 

@@ -5,11 +5,13 @@
     <string name="perm_overlay_title">Display over other apps</string>
     <string name="perm_overlay_desc">Needed to show the floating control bar during a session.</string>
     <string name="perm_accessibility_title">Accessibility (remote control)</string>
-    <string name="perm_accessibility_desc">Lets a connected helper tap, swipe and type on this device. Only active during a session you approve.</string>
+    <string name="perm_accessibility_desc">Lets a connected helper tap, swipe and type on this device. Only active during a session you approve. If the toggle looks greyed out, open App info for RemoteMan, tap the ⋮ menu, choose "Allow restricted settings", then come back here.</string>
     <string name="perm_notification_title">Notifications</string>
     <string name="perm_notification_desc">Shows an ongoing notification while a session is live.</string>
     <string name="perm_capture_title">Screen capture</string>
     <string name="perm_capture_desc">Lets a connected helper see this screen. Asked for again at the start of each session.</string>
+    <string name="perm_battery_title">Background reliability</string>
+    <string name="perm_battery_desc">Some phones (Realme, Vivo, Xiaomi and similar) kill apps in the background by default, which can cut a session early. Turning this on stops that for RemoteMan.</string>
 
     <string name="btn_enter">Enter</string>
     <string name="btn_host">Host a help server</string>
@@ -22,4 +24,12 @@
 
     <string name="connect_hint">Enter 6-digit code</string>
     <string name="btn_leave_server">Leave the server</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_restart">Restart app</string>
+    <string name="settings_restart_desc">Clears cache and restarts RemoteMan fresh, like a reinstall.</string>
+    <string name="settings_force_stop">Force stop</string>
+    <string name="settings_force_stop_desc">Immediately ends any active session and kills the app completely.</string>
+    <string name="settings_admin">Administration</string>
+    <string name="settings_admin_desc">Contact the developer.</string>
 </resources>
